@@ -40,24 +40,30 @@ public class ControlSession {
     @Transient
     private Integer unknownCount;
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "control_session_scanned_tags", joinColumns = @JoinColumn(name = "session_id"))
     @Column(name = "rfid_tag")
     private List<String> scannedTags = new ArrayList<>();
 
     @Column(name = "started_at")
+    @Builder.Default
     private LocalDateTime startedAt = LocalDateTime.now();
 
     @Column(name = "ended_at")
     private LocalDateTime endedAt;
 
+    @Builder.Default
     private String result = "EN_COURS";
 
+    @Transient
     private java.math.BigDecimal latitude;
 
+    @Transient
     private java.math.BigDecimal longitude;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public User getControleur() {

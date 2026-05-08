@@ -46,6 +46,6 @@ public class CampaignParticipation {
     @PrePersist
     public void prePersist() {
         if (createdAt == null) createdAt = LocalDateTime.now();
-        if (status == null) status = "PENDING";
+        if (status == null) status = "Pending";
     }
 }

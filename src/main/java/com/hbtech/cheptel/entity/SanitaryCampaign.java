@@ -54,8 +54,8 @@ public class SanitaryCampaign {
     public void prePersist() {
         if (createdAt == null) createdAt = LocalDateTime.now();
         if (updatedAt == null) updatedAt = LocalDateTime.now();
-        if (status == null) status = "PLANNED";
-        if (targetSpecies == null) targetSpecies = "ALL";
+        if (status == null) status = "Planned";
+        if (targetSpecies == null) targetSpecies = "All";
     }
 
     @PreUpdate

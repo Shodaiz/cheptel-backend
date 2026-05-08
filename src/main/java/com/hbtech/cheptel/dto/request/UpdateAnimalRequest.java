@@ -1,11 +1,25 @@
 package com.hbtech.cheptel.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class UpdateAnimalRequest {
+
+    @Schema(example = "Ouled Djellal")
     private String breed;
+
+    @Schema(example = "Female", allowableValues = {"Male", "Female", "Unknown"})
     private String gender;
+
+    @Schema(example = "48.0")
     private Double weight;
+
+    @Schema(example = "Noir et blanc")
     private String color;
+
+    @Schema(example = "Active", allowableValues = {"Active", "Sold", "Lost", "Dead", "Slaughtered"})
     private String status;
+
+    @Schema(example = "2023-03-15")
     private String birthDate;
 
     public String getBreed() { return breed; }

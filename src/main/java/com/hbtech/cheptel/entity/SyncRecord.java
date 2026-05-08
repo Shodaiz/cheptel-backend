@@ -32,6 +32,7 @@ public class SyncRecord {
     private User user;
 
     @Column(name = "synced_at")
+    @Builder.Default
     private LocalDateTime syncedAt = LocalDateTime.now();
 
     @Column(name = "data_json", columnDefinition = "TEXT")

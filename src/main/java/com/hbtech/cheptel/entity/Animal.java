@@ -1,11 +1,29 @@
 package com.hbtech.cheptel.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "animals", indexes = {
@@ -43,7 +61,7 @@ public class Animal {
 
     private BigDecimal weight;
 
-    @Transient
+    @Column(name = "color", length = 50)
     private String color;
 
     @Column(name = "birth_date")
@@ -57,14 +75,17 @@ public class Animal {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "life_status", nullable = false)
+    @Builder.Default
     private AnimalStatus status = AnimalStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "health_status")
+    @Builder.Default
     private HealthStatus healthStatus = HealthStatus.HEALTHY;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "origin_type")
+    @Builder.Default
     private OriginType originType = OriginType.Born;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -84,21 +105,25 @@ public class Animal {
     private Animal father;
 
     @Transient
+    @Builder.Default
     private Boolean isActive = true;
 
     @Transient
     private LocalDateTime archivedAt;
 
     @Transient
+    @Builder.Default
     private ReproductionStatus reproductionStatus = ReproductionStatus.NONE;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
+    @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @PrePersist

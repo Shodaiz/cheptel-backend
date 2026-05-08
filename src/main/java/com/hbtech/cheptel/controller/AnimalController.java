@@ -101,12 +101,16 @@ public class AnimalController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/rfid/{rfidTag}")
     @PreAuthorize("hasAnyRole('FERMIER','ADMIN')")
-    public ResponseEntity<?> updateAnimal(@PathVariable Long id, @RequestBody UpdateAnimalRequest request) {
+    public ResponseEntity<?> updateAnimal(@PathVariable String rfidTag, @RequestBody UpdateAnimalRequest request) {
         User current = currentUserService.getCurrentUserOrThrow();
-        Animal animal = animalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Animal introuvable"));
+        Animal animal;
+        try {
+            animal = animalService.getByRfidOrThrow(rfidTag);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(Map.of("message", "Animal introuvable pour ce tag RFID: " + rfidTag));
+        }
 
         if (current.getRole() == Role.FERMIER) {
             Long userFarmId = current.getFarm() != null ? current.getFarm().getId() : null;

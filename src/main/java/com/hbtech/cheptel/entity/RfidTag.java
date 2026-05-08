@@ -22,12 +22,15 @@ public class RfidTag {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tag_type")
+    @Builder.Default
     private TagType tagType = TagType.UHF;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tag_status")
+    @Builder.Default
     private TagStatus tagStatus = TagStatus.InStock;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }

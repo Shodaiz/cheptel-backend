@@ -58,17 +58,19 @@ public class Movement {
     private Double longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "approved_by")
+    @JoinColumn(name = "treated_by")
     private User approvedBy;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "approval_status")
+    @Builder.Default
     private ApprovalStatus approvalStatus = ApprovalStatus.Pending;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
     @Column(name = "created_at")
+    @Builder.Default
     private java.time.LocalDateTime createdAt = java.time.LocalDateTime.now();
 
     @Transient

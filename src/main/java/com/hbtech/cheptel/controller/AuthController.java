@@ -3,8 +3,10 @@ package com.hbtech.cheptel.controller;
 import com.hbtech.cheptel.dto.request.LoginRequest;
 import com.hbtech.cheptel.dto.request.RegisterRequest;
 import com.hbtech.cheptel.dto.response.LoginResponse;
+import com.hbtech.cheptel.entity.Farm;
 import com.hbtech.cheptel.entity.Role;
 import com.hbtech.cheptel.entity.User;
+import com.hbtech.cheptel.repository.FarmRepository;
 import com.hbtech.cheptel.repository.UserRepository;
 import com.hbtech.cheptel.security.JwtTokenProvider;
 import com.hbtech.cheptel.service.PasswordResetService;
@@ -27,6 +29,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final FarmRepository farmRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetService passwordResetService;
 
@@ -34,12 +37,14 @@ public class AuthController {
             AuthenticationManager authenticationManager,
             JwtTokenProvider jwtTokenProvider,
             UserRepository userRepository,
+            FarmRepository farmRepository,
             PasswordEncoder passwordEncoder,
             PasswordResetService passwordResetService
     ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
+        this.farmRepository = farmRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordResetService = passwordResetService;
     }
@@ -176,13 +181,24 @@ public class AuthController {
                     .lastName("-")
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
-                    .active(true)
+                    .active(false)
                     .build();
 
             userRepository.save(user);
 
+            if (role == Role.Farmer) {
+                Farm farm = Farm.builder()
+                        .name(request.getUsername() + "'s Farm")
+                        .owner(user)
+                        .status("Active")
+                        .capacity(0)
+                        .verified(false)
+                        .build();
+                farmRepository.save(farm);
+            }
+
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Map.of("message", "Compte créé avec succès"));
+                    .body(Map.of("message", "Compte créé avec succès. En attente d'activation."));
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()

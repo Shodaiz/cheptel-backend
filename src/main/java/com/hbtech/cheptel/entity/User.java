@@ -22,7 +22,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false, length = 191)
+    @Column(nullable = false, unique = true, length = 191)
     private String email;
 
     @Column(nullable = false)
@@ -42,13 +42,15 @@ public class User {
     private String phone;
 
     @Column(name = "is_active")
-    private boolean active = true;
+    @Builder.Default
+    private boolean active = false;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Farm> farms = new ArrayList<>();
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")

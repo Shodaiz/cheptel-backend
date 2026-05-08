@@ -3,6 +3,7 @@ package com.hbtech.cheptel.dto.response;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,10 +22,7 @@ public class ConstatResponse {
     private Double latitude;
     private Double longitude;
     private String localisationText;
-    private String photoUrl;
-    private String voiceMemoUrl;
-    private String documentUrl;
-    private String attachmentsJson;
+    private List<String> imageUrls;
     private String status;
     private LocalDateTime createdAt;
 }

@@ -5,8 +5,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "admin_settings")
 @Getter
 @Setter
 @NoArgsConstructor

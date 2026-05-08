@@ -56,6 +56,7 @@ public class Vaccination {
     private String notes;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @PrePersist

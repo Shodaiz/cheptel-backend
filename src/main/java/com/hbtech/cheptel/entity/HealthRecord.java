@@ -46,18 +46,20 @@ public class HealthRecord {
     private java.time.LocalDate nextVisitDate;
 
     @Column(name = "is_validated")
+    @Builder.Default
     private Boolean validated = false;
 
-    @Column(name = "geo_latitude")
+    @Transient
     private java.math.BigDecimal geoLatitude;
 
-    @Column(name = "geo_longitude")
+    @Transient
     private java.math.BigDecimal geoLongitude;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @PrePersist

@@ -27,11 +27,14 @@ public class Farm {
     private BigDecimal latitude;
     private BigDecimal longitude;
 
+    @Builder.Default
     private Integer capacity = 0;
 
+    @Builder.Default
     private String status = "Active";
 
     @Column(name = "is_verified")
+    @Builder.Default
     private Boolean verified = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

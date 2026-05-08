@@ -1,5 +1,6 @@
 package com.hbtech.cheptel.controller;
 
+import com.hbtech.cheptel.dto.request.ConstatRequest;
 import com.hbtech.cheptel.dto.response.ConstatResponse;
 import com.hbtech.cheptel.service.ConstatService;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,11 @@ public class ConstatController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CONTROLEUR','ADMIN')")
-    public ResponseEntity<?> create(@RequestBody Map<String, Object> request) {
-        System.out.println("=== POST /constats reçu ===");
-        System.out.println("Body : " + request);
-
+    public ResponseEntity<?> create(@RequestBody ConstatRequest request) {
         try {
             ConstatResponse response = constatService.createConstat(request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.out.println("❌ Erreur : " + e.getMessage());
-            e.printStackTrace();
             return ResponseEntity.badRequest()
                     .body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Erreur inconnue"));
         }

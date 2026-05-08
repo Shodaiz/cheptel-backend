@@ -1,26 +1,49 @@
 package com.hbtech.cheptel.dto.request;
 
+import com.hbtech.cheptel.entity.MovementType;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.hbtech.cheptel.entity.MovementType;
-
 public class CreateMovementRequest {
 
+    @Schema(example = "1")
     private Long animalId;
+
+    @Schema(example = "TRANSFER", allowableValues = {"SALE", "TRANSFER", "SLAUGHTER", "DEATH"})
     private MovementType movementType;
+
+    @Schema(example = "1")
     private Long fromFarmId;
+
+    @Schema(example = "2")
     private Long toFarmId;
+
+    @Schema(example = "2024-06-01T08:00:00")
     private LocalDateTime movementDate;
+
+    @Schema(example = "85000.00")
     private BigDecimal price;
+
+    @Schema(example = "Ferme El Oued")
     private String counterpartyName;
+
+    @Schema(example = "0661234567")
     private String counterpartyPhone;
+
+    @Schema(example = "DOC-2024-0042")
     private String documentReference;
+
+    @Schema(example = "36.7372")
     private Double latitude;
+
+    @Schema(example = "3.0865")
     private Double longitude;
+
+    @Schema(example = "Transfert suite à vente")
     private String notes;
 
-    // Getters & Setters
     public Long getAnimalId() { return animalId; }
     public void setAnimalId(Long animalId) { this.animalId = animalId; }
 
