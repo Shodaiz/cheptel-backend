@@ -9,6 +9,7 @@ import com.hbtech.cheptel.entity.User;
 import com.hbtech.cheptel.repository.AnimalRepository;
 import com.hbtech.cheptel.repository.HealthRecordRepository;
 import com.hbtech.cheptel.repository.VaccinationRepository;
+import com.hbtech.cheptel.service.AlertService;
 import com.hbtech.cheptel.service.AnimalService;
 import com.hbtech.cheptel.service.CurrentUserService;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +29,22 @@ public class FermierController {
     private final AnimalRepository animalRepository;
     private final VaccinationRepository vaccinationRepository;
     private final HealthRecordRepository healthRecordRepository;
+    private final AlertService alertService;
 
     public FermierController(
             AnimalService animalService,
             CurrentUserService currentUserService,
             AnimalRepository animalRepository,
             VaccinationRepository vaccinationRepository,
-            HealthRecordRepository healthRecordRepository
+            HealthRecordRepository healthRecordRepository,
+            AlertService alertService
     ) {
         this.animalService = animalService;
         this.currentUserService = currentUserService;
         this.animalRepository = animalRepository;
         this.vaccinationRepository = vaccinationRepository;
         this.healthRecordRepository = healthRecordRepository;
+        this.alertService = alertService;
     }
 
     @GetMapping("/stats")
@@ -102,8 +106,11 @@ public class FermierController {
     @GetMapping("/alerts")
     @PreAuthorize("hasRole('FERMIER')")
     public ResponseEntity<?> getMyAlerts() {
-
-        return ResponseEntity.ok(List.of());
+        User current = currentUserService.getCurrentUserOrThrow();
+        if (current.getFarm() == null) {
+            return ResponseEntity.status(403).body(Map.of("message", "Aucune ferme associée"));
+        }
+        return ResponseEntity.ok(alertService.getAlertsForFarm(current.getFarm().getId()));
     }
 
     @GetMapping("/animals/rfid/{rfidTag}/history")
